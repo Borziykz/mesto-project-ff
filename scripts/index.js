@@ -28,7 +28,7 @@ function createCard(cardData, deleteCardHandler) {
 
 function renderInitialCards() {
   initialCards.forEach((cardData) => {
-    const card = createCard(cardData);
+    const card = createCard(cardData, deleteCard);
     cardsContainer.append(card);
   });
 }
