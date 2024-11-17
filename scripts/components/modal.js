@@ -1,4 +1,3 @@
-// modal.js
 export function openPopup(popup) {
     popup.classList.add('popup_is-opened');
     document.addEventListener('keydown', handleEscape);
@@ -17,5 +16,12 @@ export function openPopup(popup) {
       }
     }
   }
-
-  console.log('openPopup and closePopup loaded', openPopup, closePopup);
+  
+  document.querySelectorAll('.popup').forEach((popup) => {
+    popup.addEventListener('click', (event) => {
+      if (event.target === popup || event.target.classList.contains('popup__close')) {
+        closePopup(popup);
+      }
+    });
+  });
+  
