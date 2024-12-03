@@ -33,25 +33,29 @@
       © 2021 Mesto Russia
     </p>
   </footer>
-  <div class="popup popup_type_edit">
+  <div class="popup popup_type_edit" id="edit-profile-popup">
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
       <form class="popup__form" name="edit-profile">
-        <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required>
-        <input type="text" name="description" class="popup__input popup__input_type_description" placeholder="Занятие" required>
-        <button type="submit" class="button popup__button">Сохранить</button>
+        <input type="text" name="name" id="popup-name" class="popup__input popup__input_type_name" placeholder="Имя" required data-validation-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы.">
+        <span class="popup__error popup__error_type_name" id="popup-name-error"></span>
+        <input type="text" name="description" id="input_type-description" class="popup__input popup__input_type_description" placeholder="Занятие" required>
+        <span class="popup__error popup__error_type_description" id="input_type-description-error"></span>
+        <button type="submit" class="button popup__button" >Сохранить</button> 
       </form>
     </div>
   </div>
-  <div class="popup popup_type_new-card">
+  <div class="popup popup_type_new-card" id="new-card-popup">
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Новое место</h3>
       <form class="popup__form" name="new-place">
-        <input type="text" name="place-name" class="popup__input popup__input_type_card-name" placeholder="Название" required>
-        <input type="url" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
-        <button type="submit" class="button popup__button">Сохранить</button>
+        <input type="text" name="place-name" class="popup__input popup__input_type_card-name" placeholder="Название" id="input__type_card-name" required>
+        <span class="popup__error popup__error_type_card-name" id="input__type_card-name-error"></span>
+        <input type="url" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" id="input_type-url" required>
+        <span class="popup__error popup__error_type_url" id="input_type-url-error"></span> 
+        <button type="submit" class="button popup__button" disabled>Сохранить</button> 
       </form>
     </div>
   </div>
@@ -73,7 +77,10 @@
     <div class="card__description">
       <h2 class="card__title">
       </h2>
+      <div class="card__like-container">
       <button type="button" class="card__like-button"></button>
+      <p class="like-count">5</p>
+      </div>
     </div>
   </li>
 </template>

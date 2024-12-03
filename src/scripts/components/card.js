@@ -1,30 +1,57 @@
-export function createCard(cardData, onImageClick) {
-  const cardTemplate = document.querySelector("#card-template").content;
-  const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
-  const likeButton = cardElement.querySelector(".card__like-button");
-  const cardImage = cardElement.querySelector(".card__image");
+// Получаем элементы
+const deletePopup = document.querySelector('.popup_type_delete');
+const confirmDeleteButton = deletePopup.querySelector('.popup__button_type_confirm');
+const cancelDeleteButton = deletePopup.querySelector('.popup__button_type_cancel');
+const closeDeleteButton = deletePopup.querySelector('.popup__close');
 
-  cardImage.src = cardData.link;
-  cardImage.alt = cardData.name;
-  cardElement.querySelector(".card__title").textContent = cardData.name;
+// Хранение ID карточки, которую собираемся удалить
+let cardToDelete = null;
 
-  // Event listeners
-  cardImage.addEventListener("click", () => onImageClick(cardData));
-  const deleteButton = cardElement.querySelector(".card__delete-button");
-  deleteButton.addEventListener("click", (event) =>
-    handleDeleteCard(event, cardElement)
-  );
+// Открытие попапа с подтверждением удаления
+const openDeletePopup = (card) => {
+  cardToDelete = card;  // Сохраняем карточку, которую хотим удалить
+  deletePopup.classList.add('popup_opened');
+};
 
-  likeButton.addEventListener("click", () => handleLikeClick(likeButton));
+// Закрытие попапа
+const closeDeletePopup = () => {
+  deletePopup.classList.remove('popup_opened');
+  cardToDelete = null; // Сбросим сохранённую карточку
+};
 
-  return cardElement;
-}
+// Обработчик клика на кнопку "Удалить"
+const handleDeleteButtonClick = (event) => {
+  const card = event.target.closest('.card'); // Ищем карточку, к которой принадлежит кнопка
+  const cardOwnerId = card.querySelector('.card__owner').textContent; // Получаем ID владельца карточки
+  
+  // Проверяем, если эта карточка принадлежит текущему пользователю
+  if (cardOwnerId === currentUserId) {
+    openDeletePopup(card); // Если наша карточка, открываем попап
+  }
+};
 
-function handleLikeClick(likeButton) {
-  likeButton.classList.toggle("card__like-button_is-active");
-}
+// Обработчик подтверждения удаления
+confirmDeleteButton.addEventListener('click', () => {
+  // Вызываем API для удаления карточки
+  deleteCardApi(cardToDelete.id)
+    .then(() => {
+      // Убираем карточку из DOM
+      cardToDelete.remove();
+      closeDeletePopup(); // Закрываем попап
+    })
+    .catch((err) => {
+      console.error('Ошибка при удалении карточки:', err);
+    });
+});
 
-function handleDeleteCard(event, cardElement) {
-  event.stopPropagation();
-  cardElement.remove();
-}
+// Обработчик кнопки отмены удаления
+cancelDeleteButton.addEventListener('click', closeDeletePopup);
+
+// Обработчик кнопки закрытия попапа
+closeDeleteButton.addEventListener('click', closeDeletePopup);
+
+// Обработчик события для кнопки удаления на карточке
+const deleteButtons = document.querySelectorAll('.card__delete-button');
+deleteButtons.forEach((button) => {
+  button.addEventListener('click', handleDeleteButtonClick);
+});
