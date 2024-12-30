@@ -21,8 +21,7 @@
 }
 
 .popup__button:disabled:hover{
-  background: transparent;
-  cursor: auto;
+  cursor: not-allowed;
 }
 
 .popup__button:hover {

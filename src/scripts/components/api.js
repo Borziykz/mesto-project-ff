@@ -9,11 +9,12 @@ const config = {
 };
 
 // Функция для обработки ответа от сервера
-function checkResponse(response) {
-  if (response.ok) {
-    return response.json();
+function checkResponse(res) {
+  if (res.ok) {
+    return res.json();
   }
-  return Promise.reject(`Ошибка: ${response.status}`);
+  // если ошибка, отклоняем промис
+  return Promise.reject(`Ошибка: ${res.status}`);
 }
 
 // Получить информацию о пользователе
@@ -31,7 +32,8 @@ export function getInitialCards() {
     method: 'GET',
     headers: config.headers,
   })
-  .then(checkResponse);
+  .then(checkResponse)
+  .catch((err) => console.log(`Ошибка при получении карточек: ${err}`));  // Обработка ошибки
 }
 
 // Обновить данные пользователя (имя и описание)
@@ -41,7 +43,8 @@ export function updateUserInfo(data) {
     headers: config.headers,
     body: JSON.stringify(data),
   })
-  .then(checkResponse);
+  .then(checkResponse)
+  .catch((err) => console.log(`Ошибка при обновлении данных пользователя: ${err}`));
 }
 
 // Обновить аватар пользователя
@@ -51,7 +54,8 @@ export function updateAvatar(data) {
     headers: config.headers,
     body: JSON.stringify(data),
   })
-  .then(checkResponse);
+  .then(checkResponse)
+  .catch((err) => console.log(`Ошибка при обновлении аватара: ${err}`));
 }
 
 // Добавить новую карточку
@@ -61,7 +65,8 @@ export function addCard(data) {
     headers: config.headers,
     body: JSON.stringify(data),
   })
-  .then(checkResponse);
+  .then(checkResponse)
+  .catch((err) => console.log(`Ошибка при добавлении карточки: ${err}`));
 }
 
 // Удалить карточку
@@ -70,7 +75,8 @@ export function deleteCard(cardId) {
     method: 'DELETE',
     headers: config.headers,
   })
-  .then(checkResponse);
+  .then(checkResponse)
+  .catch((err) => console.log(`Ошибка при удалении карточки: ${err}`));
 }
 
 // Поставить или снять лайк
@@ -79,5 +85,6 @@ export function toggleLike(cardId, isLiked) {
     method: isLiked ? 'DELETE' : 'PUT',
     headers: config.headers,
   })
-  .then(checkResponse);
+  .then(checkResponse)
+  .catch((err) => console.log(`Ошибка при лайке карточки: ${err}`));
 }
