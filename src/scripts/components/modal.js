@@ -16,14 +16,3 @@ function handleEscape(event) {
     }
   }
 }
-
-document.querySelectorAll(".popup").forEach((popup) => {
-  popup.addEventListener("click", (event) => {
-    if (
-      event.target === popup ||
-      event.target.classList.contains("popup__close")
-    ) {
-      closePopup(popup);
-    }
-  });
-});

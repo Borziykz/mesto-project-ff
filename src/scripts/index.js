@@ -39,6 +39,7 @@ const popupCaption = popup.querySelector(".popup__caption");
 const newCardForm = document.querySelector(".popup_type_new-card .popup__form");
 const placeNameInput = newCardForm.querySelector(".popup__input_type_card-name");
 const placeLinkInput = newCardForm.querySelector(".popup__input_type_url");
+const saveButton = editFormElement.querySelector(validationConfig.submitButtonSelector);
 
 let currentUserId;
 
@@ -62,6 +63,7 @@ getUserInfo()
 
 // Open and Update Profile Popup
 function openEditPopup() {
+  clearValidation(editFormElement, validationConfig);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
   openPopup(editButtonPopup);
@@ -69,7 +71,6 @@ function openEditPopup() {
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  const saveButton = editFormElement.querySelector(validationConfig.submitButtonSelector);
 
   toggleButtonState(saveButton, true);
 
@@ -87,7 +88,7 @@ editButton.addEventListener("click", openEditPopup);
 editFormElement.addEventListener("submit", handleEditFormSubmit);
 
 // Update Avatar
-function profileAvatarChange(evt) {
+function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
   const saveButton = profileImageChange.querySelector(validationConfig.submitButtonSelector);
 
@@ -102,8 +103,7 @@ function profileAvatarChange(evt) {
     .finally(() => toggleButtonState(saveButton, false));
 }
 
-profileImageChange.addEventListener("submit", profileAvatarChange);
-profileImage.addEventListener("click", () => openPopup(profileImageChange));
+profileImageChange.addEventListener("submit", handleAvatarFormSubmit);
 
 // Add New Card
 function handleNewCardFormSubmit(evt) {
@@ -123,7 +123,6 @@ function handleNewCardFormSubmit(evt) {
 }
 
 cardForm.addEventListener("submit", handleNewCardFormSubmit);
-addButton.addEventListener("click", () => openPopup(addButtonPopup));
 
 // Open Image Popup
 function openImagePopup(cardData) {
@@ -136,3 +135,30 @@ function openImagePopup(cardData) {
 function toggleButtonState(button, isLoading, initialText = "Сохранить") {
   button.textContent = isLoading ? "Сохранение..." : initialText;
 }
+
+function openNewCardPopup() {
+  placeNameInput.value = "";
+  placeLinkInput.value = "";
+  clearValidation(newCardForm, validationConfig); // Очистка ошибок и деактивация кнопки
+  openPopup(addButtonPopup);
+}
+
+function openAvatarPopup() {
+  avatarInput.value = "";
+  clearValidation(profileImageChange, validationConfig); // Очистка ошибок и деактивация кнопки
+  openPopup(profileImageChange);
+}
+
+addButton.addEventListener("click", openNewCardPopup);
+profileImage.addEventListener("click", openAvatarPopup);
+
+document.querySelectorAll(".popup").forEach((popup) => {
+  popup.addEventListener("click", (event) => {
+    if (
+      event.target === popup ||
+      event.target.classList.contains("popup__close")
+    ) {
+      closePopup(popup);
+    }
+  });
+});

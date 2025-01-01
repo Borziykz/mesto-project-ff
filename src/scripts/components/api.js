@@ -1,5 +1,3 @@
-// api.js
-
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/wff-cohort-26',
   headers: {
@@ -13,7 +11,6 @@ function checkResponse(res) {
   if (res.ok) {
     return res.json();
   }
-  // если ошибка, отклоняем промис
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
@@ -22,8 +19,7 @@ export function getUserInfo() {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'GET',
     headers: config.headers,
-  })
-  .then(checkResponse);
+  }).then(checkResponse);
 }
 
 // Получить начальные карточки
@@ -31,9 +27,7 @@ export function getInitialCards() {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'GET',
     headers: config.headers,
-  })
-  .then(checkResponse)
-  .catch((err) => console.log(`Ошибка при получении карточек: ${err}`));  // Обработка ошибки
+  }).then(checkResponse);
 }
 
 // Обновить данные пользователя (имя и описание)
@@ -42,9 +36,7 @@ export function updateUserInfo(data) {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify(data),
-  })
-  .then(checkResponse)
-  .catch((err) => console.log(`Ошибка при обновлении данных пользователя: ${err}`));
+  }).then(checkResponse);
 }
 
 // Обновить аватар пользователя
@@ -53,9 +45,7 @@ export function updateAvatar(data) {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify(data),
-  })
-  .then(checkResponse)
-  .catch((err) => console.log(`Ошибка при обновлении аватара: ${err}`));
+  }).then(checkResponse);
 }
 
 // Добавить новую карточку
@@ -64,9 +54,7 @@ export function addCard(data) {
     method: 'POST',
     headers: config.headers,
     body: JSON.stringify(data),
-  })
-  .then(checkResponse)
-  .catch((err) => console.log(`Ошибка при добавлении карточки: ${err}`));
+  }).then(checkResponse);
 }
 
 // Удалить карточку
@@ -74,17 +62,15 @@ export function deleteCard(cardId) {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: config.headers,
-  })
-  .then(checkResponse)
-  .catch((err) => console.log(`Ошибка при удалении карточки: ${err}`));
+  }).then(checkResponse);
 }
 
 // Поставить или снять лайк
 export function toggleLike(cardId, isLiked) {
+  const method = isLiked ? "DELETE" : "PUT";
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
-    method: isLiked ? 'DELETE' : 'PUT',
-    headers: config.headers,
-  })
-  .then(checkResponse)
-  .catch((err) => console.log(`Ошибка при лайке карточки: ${err}`));
+    method,
+    headers: config.headers
+  });
 }
+
