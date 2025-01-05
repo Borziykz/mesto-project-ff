@@ -1,9 +1,9 @@
 const config = {
-  baseUrl: 'https://nomoreparties.co/v1/wff-cohort-26',
+  baseUrl: "https://nomoreparties.co/v1/wff-cohort-26",
   headers: {
-    authorization: 'fbac0bd2-60a8-471d-baca-3c798bec7877',
-    'Content-Type': 'application/json',
-  }
+    authorization: "fbac0bd2-60a8-471d-baca-3c798bec7877",
+    "Content-Type": "application/json",
+  },
 };
 
 // Функция для обработки ответа от сервера
@@ -17,7 +17,7 @@ function checkResponse(res) {
 // Получить информацию о пользователе
 export function getUserInfo() {
   return fetch(`${config.baseUrl}/users/me`, {
-    method: 'GET',
+    method: "GET",
     headers: config.headers,
   }).then(checkResponse);
 }
@@ -25,7 +25,7 @@ export function getUserInfo() {
 // Получить начальные карточки
 export function getInitialCards() {
   return fetch(`${config.baseUrl}/cards`, {
-    method: 'GET',
+    method: "GET",
     headers: config.headers,
   }).then(checkResponse);
 }
@@ -33,7 +33,7 @@ export function getInitialCards() {
 // Обновить данные пользователя (имя и описание)
 export function updateUserInfo(data) {
   return fetch(`${config.baseUrl}/users/me`, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: config.headers,
     body: JSON.stringify(data),
   }).then(checkResponse);
@@ -42,7 +42,7 @@ export function updateUserInfo(data) {
 // Обновить аватар пользователя
 export function updateAvatar(data) {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: config.headers,
     body: JSON.stringify(data),
   }).then(checkResponse);
@@ -51,7 +51,7 @@ export function updateAvatar(data) {
 // Добавить новую карточку
 export function addCard(data) {
   return fetch(`${config.baseUrl}/cards`, {
-    method: 'POST',
+    method: "POST",
     headers: config.headers,
     body: JSON.stringify(data),
   }).then(checkResponse);
@@ -60,7 +60,7 @@ export function addCard(data) {
 // Удалить карточку
 export function deleteCard(cardId) {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: config.headers,
   }).then(checkResponse);
 }
@@ -70,7 +70,6 @@ export function toggleLike(cardId, isLiked) {
   const method = isLiked ? "DELETE" : "PUT";
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method,
-    headers: config.headers
-  });
+    headers: config.headers,
+  }).then(checkResponse);
 }
-

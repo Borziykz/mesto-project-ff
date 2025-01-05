@@ -2,7 +2,13 @@ import { createCard } from "./components/card.js";
 import { openPopup, closePopup } from "./components/modal.js";
 import { enableValidation, clearValidation } from "./components/validation.js";
 import "../pages/index.css";
-import { getUserInfo, getInitialCards, updateUserInfo, updateAvatar, addCard } from "./components/api.js";
+import {
+  getUserInfo,
+  getInitialCards,
+  updateUserInfo,
+  updateAvatar,
+  addCard,
+} from "./components/api.js";
 
 const validationConfig = {
   formSelector: ".popup__form",
@@ -27,19 +33,31 @@ const editButtonPopup = document.querySelector(".popup_type_edit");
 const addButtonPopup = document.querySelector(".popup_type_new-card");
 const editFormElement = document.querySelector(".popup_type_edit .popup__form");
 const nameInput = editFormElement.querySelector(".popup__input_type_name");
-const jobInput = editFormElement.querySelector(".popup__input_type_description");
+const jobInput = editFormElement.querySelector(
+  ".popup__input_type_description"
+);
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const profileImage = document.querySelector(".profile__image");
 const profileImageChange = document.querySelector(".popup_type_profile_image");
 const avatarInput = document.querySelector(".avatar__input");
-const popup = document.querySelector(".popup_type_image");
-const popupImage = popup.querySelector(".popup__image");
-const popupCaption = popup.querySelector(".popup__caption");
+const Imagemodal = document.querySelector(".popup_type_image");
+const popupImage = Imagemodal.querySelector(".popup__image");
+const popupCaption = Imagemodal.querySelector(".popup__caption");
 const newCardForm = document.querySelector(".popup_type_new-card .popup__form");
-const placeNameInput = newCardForm.querySelector(".popup__input_type_card-name");
+const placeNameInput = newCardForm.querySelector(
+  ".popup__input_type_card-name"
+);
 const placeLinkInput = newCardForm.querySelector(".popup__input_type_url");
-const saveButton = editFormElement.querySelector(validationConfig.submitButtonSelector);
+const profileSaveButton = editFormElement.querySelector(
+  validationConfig.submitButtonSelector
+);
+const avatarSaveButton = profileImageChange.querySelector(
+  validationConfig.submitButtonSelector
+);
+const addCardButton = cardForm.querySelector(
+  validationConfig.submitButtonSelector
+);
 
 let currentUserId;
 
@@ -72,7 +90,7 @@ function openEditPopup() {
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
 
-  toggleButtonState(saveButton, true);
+  toggleButtonState(profileSaveButton, true);
 
   updateUserInfo({ name: nameInput.value, about: jobInput.value })
     .then((user) => {
@@ -81,7 +99,7 @@ function handleEditFormSubmit(evt) {
       closePopup(editButtonPopup);
     })
     .catch((err) => console.error(`Ошибка: ${err}`))
-    .finally(() => toggleButtonState(saveButton, false));
+    .finally(() => toggleButtonState(profileSaveButton, false));
 }
 
 editButton.addEventListener("click", openEditPopup);
@@ -90,9 +108,8 @@ editFormElement.addEventListener("submit", handleEditFormSubmit);
 // Update Avatar
 function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
-  const saveButton = profileImageChange.querySelector(validationConfig.submitButtonSelector);
 
-  toggleButtonState(saveButton, true);
+  toggleButtonState(avatarSaveButton, true);
 
   updateAvatar({ avatar: avatarInput.value })
     .then((user) => {
@@ -100,7 +117,7 @@ function handleAvatarFormSubmit(evt) {
       closePopup(profileImageChange);
     })
     .catch((err) => console.error(`Ошибка: ${err}`))
-    .finally(() => toggleButtonState(saveButton, false));
+    .finally(() => toggleButtonState(avatarSaveButton, false));
 }
 
 profileImageChange.addEventListener("submit", handleAvatarFormSubmit);
@@ -108,9 +125,8 @@ profileImageChange.addEventListener("submit", handleAvatarFormSubmit);
 // Add New Card
 function handleNewCardFormSubmit(evt) {
   evt.preventDefault();
-  const saveButton = cardForm.querySelector(validationConfig.submitButtonSelector);
 
-  toggleButtonState(saveButton, true);
+  toggleButtonState(addCardButton, true);
 
   addCard({ name: placeNameInput.value, link: placeLinkInput.value })
     .then((newCardData) => {
@@ -119,7 +135,7 @@ function handleNewCardFormSubmit(evt) {
       closePopup(addButtonPopup);
     })
     .catch((err) => console.error(`Ошибка: ${err}`))
-    .finally(() => toggleButtonState(saveButton, false));
+    .finally(() => toggleButtonState(addCardButton, false));
 }
 
 cardForm.addEventListener("submit", handleNewCardFormSubmit);

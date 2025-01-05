@@ -29,11 +29,12 @@ export function createCard(cardData, onImageClick, currentUserId) {
     );
   }
 
-  likeButton.addEventListener("click", () => handleLikeClick(likeButton, cardData._id));
+  likeButton.addEventListener("click", () =>
+    handleLikeClick(likeButton, cardData._id)
+  );
 
   return cardElement;
 }
-
 
 function handleLikeClick(likeButton, cardId) {
   const cardElement = likeButton.closest(".card");
@@ -44,12 +45,6 @@ function handleLikeClick(likeButton, cardId) {
 
   // Запрос к API (ставим или убираем лайк)
   toggleLike(cardId, isLiked)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Ошибка: ${response.status}`);
-      }
-      return response.json(); // Обновлённые данные карточки
-    })
     .then((updatedCard) => {
       // Обновляем интерфейс
       likeCountElement.textContent = updatedCard.likes.length;
@@ -60,19 +55,13 @@ function handleLikeClick(likeButton, cardId) {
     });
 }
 
-
-
 function handleDeleteCard(event, cardElement, cardId) {
   event.stopPropagation();
-  deleteCard()
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Ошибка: ${response.status}`);
-      }
-      // Удаляем карточку из DOM, если запрос успешен
+  deleteCard(cardId)
+    .then(() => {
       cardElement.remove();
     })
     .catch((error) => {
       console.error("Ошибка удаления карточки:", error);
     });
-} 
+}
