@@ -41,9 +41,9 @@ const profileDescription = document.querySelector(".profile__description");
 const profileImage = document.querySelector(".profile__image");
 const profileImageChange = document.querySelector(".popup_type_profile_image");
 const avatarInput = document.querySelector(".avatar__input");
-const Imagemodal = document.querySelector(".popup_type_image");
-const popupImage = Imagemodal.querySelector(".popup__image");
-const popupCaption = Imagemodal.querySelector(".popup__caption");
+const imageModal = document.querySelector(".popup_type_image");
+const popupImage = imageModal.querySelector(".popup__image");
+const popupCaption = imageModal.querySelector(".popup__caption");
 const newCardForm = document.querySelector(".popup_type_new-card .popup__form");
 const placeNameInput = newCardForm.querySelector(
   ".popup__input_type_card-name"
@@ -145,7 +145,7 @@ function openImagePopup(cardData) {
   popupImage.src = cardData.link;
   popupImage.alt = cardData.name;
   popupCaption.textContent = cardData.name;
-  openPopup(popup);
+  openPopup(imageModal);
 }
 
 function toggleButtonState(button, isLoading, initialText = "Сохранить") {
